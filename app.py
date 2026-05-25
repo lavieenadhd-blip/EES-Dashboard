@@ -81,4 +81,5 @@ df_global["Rank"] = df_global["EES_Score"].rank(ascending=False, method="min").a
 df_global = df_global.sort_values("Rank")
 
 # 3. GRAPHICAL DASHBOARD LAYOUT
-col1, col2, col
+col1, col2, col3 = st.columns(3)
+
