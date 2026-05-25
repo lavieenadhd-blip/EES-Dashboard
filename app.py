@@ -82,9 +82,12 @@ df_global = df_global.sort_values("Rank")
 
 # 3. GRAPHICAL DASHBOARD LAYOUT
 col1, col2, col3 = st.columns(3)
-col1.metric("🌍 Active Global Cohort", f"{len(df_global)} Nations")
-col2.metric("🛡️ Dynamic Safety Floor", f"{DYNAMIC_THRESHOLD:.3f}")
-col3.metric("📊 Median EES Score", f"{df_global['EES_Score'].median():.3f}")
+with col1:
+    st.metric("🌍 Active Global Cohort", f"{len(df_global)} Nations")
+with col2:
+    st.metric("🛡️ Dynamic Safety Floor", f"{DYNAMIC_THRESHOLD:.3f}")
+with col3:
+    st.metric("📊 Median EES Score", f"{df_global['EES_Score'].median():.3f}")
 
 st.markdown("---")
 
@@ -92,37 +95,4 @@ st.markdown("---")
 st.subheader("🗺️ EES v2.4 Global Distribution Map")
 fig_map = px.choropleth(
     df_global, locations="Country_ISO", color="EES_Score", hover_name="Country",
-    hover_data={"Country_ISO": False, "Rank": True, "EES_Score": ":.3f", "GDP_pc": ":.0f"},
-    color_continuous_scale="Viridis", title="Structural Conversion Efficiency by Nation"
-)
-fig_map.update_layout(margin={"r":0,"t":40,"l":0,"b":0})
-st.plotly_chart(fig_map, use_container_width=True)
-
-# Scatter Plot
-st.subheader("📈 EES Score vs Raw Economic Output (GDP pc)")
-fig_scatter = px.scatter(
-    df_global, x="GDP_pc", y="EES_Score", color="EES_Score", hover_name="Country", size="S",
-    hover_data={"Rank": True, "S": ":.2f", "Gini": ":.1f"}, color_continuous_scale="Viridis",
-    labels={"GDP_pc": "GDP per Capita (PPP)", "EES_Score": "EES v2.4 Score"}
-)
-st.plotly_chart(fig_scatter, use_container_width=True)
-
-# Data Table
-st.subheader("📑 Global Leaderboard Ledger")
-display_df = df_global[["Rank", "Country", "GDP_pc", "S", "T", "M", "Gini", "EES_Score"]]
-st.dataframe(
-    display_df.style.format({
-        "GDP_pc": "${:,.0f}", "S": "{:.3f}", "T": "{:.3f}", 
-        "M": "{:.3f}", "Gini": "{:.1f}", "EES_Score": "{:.3f}"
-    }), use_container_width=True, hide_index=True
-)
-
-# 4. ACADEMIC LIMITATIONS & ECONOMETRIC BOUNDARIES
-with st.expander("⚠️ Econometric Boundaries & Framework Limitations"):
-    st.markdown("""
-    **Temporal Vintage Mismatch:** To stabilize the framework, flow variables (smoothed via an SMA over 3 years) are geometrically multiplied against structural stock variables. Consequently, the composite EES score in any given year blends data of varying chronological vintages, introducing minor temporal distortion during periods of rapid structural policy shifts.
-    
-    **Safety Floor Sensitivity:** While the historical anchor floor of **0.85** is empirically motivated by long-run OECD baseline security medians, it functions as a rigid gatekeeper. The cohort composition dictates the dynamic median; expanding the evaluation database to include a heavy ratio of hyper-depressed fragile states shifts the activation mechanics of the exponential safety drag.
-    
-    **Endogeneity and Construct Overlap:** Because underlying sub-indicators of the EES framework (such as healthcare insulation and poverty mitigation) operate as known downstream determinants of macro health profiles, the model relies on shared latent pathways. Output should not be interpreted as absolute clean causal discovery.
-    """)
+    hover_data={"Country_ISO": False, "Rank": True, "EES_Score": ":.3
