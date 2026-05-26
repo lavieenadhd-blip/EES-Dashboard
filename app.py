@@ -49,9 +49,9 @@ def fetch_global_ees_data():
     recent_df["S"] = 1.0 - (recent_df["S_health"] / 100.0)
     recent_df["T"] = 1.0 - (recent_df["T_safety"] / 100.0)
     
+    # Restoring natural variance to the M pillar (Floor lowered to 0.01)
     M_min, M_max = recent_df["M_proxy"].min(), recent_df["M_proxy"].max()
-    # Apply standard bounded Min-Max with division-by-zero protection
-    recent_df["M"] = np.clip((recent_df["M_proxy"] - M_min) / np.maximum(M_max - M_min, epsilon), 0.20, 0.95)
+    recent_df["M"] = np.clip((recent_df["M_proxy"] - M_min) / np.maximum(M_max - M_min, epsilon), 0.01, 1.0)
     
     # Explicitly normalize Gini to [0, 1] interval
     recent_df["Gini_Norm"] = recent_df["Gini"] / 100.0
