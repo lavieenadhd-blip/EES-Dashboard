@@ -123,6 +123,8 @@ st.dataframe(
 # 4. ACADEMIC LIMITATIONS & ECONOMETRIC BOUNDARIES
 with st.expander("⚠️ Econometric Boundaries & Framework Limitations"):
     st.markdown("""
+    * **Live Proxy Architecture:** Due to real-time API constraints and the multi-decadal lag of structural census data, this live implementation utilizes a condensed proxy architecture. Specifically, the Security (S) pillar is tracked solely via catastrophic healthcare expenditure insulation, and the Mobility (M) pillar is tracked solely via tertiary enrollment pipelines. See the Master Specification Working Paper for the complete multi-indicator theoretical framework.
+    
     * **Temporal Vintage Mismatch:** To stabilize the framework, high-frequency flow variables (smoothed via an SMA over 3 years) are geometrically multiplied against structural stock variables. Consequently, the composite EES score in any given year blends data of varying chronological vintages, introducing minor temporal distortion during periods of rapid structural policy shifts.
     
     * **Safety Floor Sensitivity:** While the historical anchor floor of **0.85** is empirically motivated by long-run OECD baseline security medians, it functions as a rigid gatekeeper. The cohort composition dictates the dynamic median; expanding the evaluation database to include a heavy ratio of hyper-depressed fragile states artificially shifts the activation mechanics of the exponential safety drag.
